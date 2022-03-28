@@ -1,0 +1,26 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model HistoricalEvent {
+  id           String   @id @default(uuid())
+  name         String
+  description  String?
+  date         DateTime
+  monthPresent Boolean  
+  datePresent  Boolean  
+  leader       Leader?  @relation(fields: [leaderId], references: [id])
+  leaderId     String?
+}
+
+model Leader {
+  id              String            @id @default(uuid())
+  name            String
+  color           String
+  HistoricalEvent HistoricalEvent[]
+}
