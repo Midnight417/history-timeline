@@ -27,7 +27,7 @@ export const NewEvent: React.FC = ({ }) => {
 
     return (
         <>
-            <Button onClick={handleOpen} sx={{margin: 4, marginBottom: 2}} variant="contained">+ Add Event</Button>
+            <Button onClick={handleOpen} sx={{margin: 5, marginBottom: 2}} variant="contained">+ Add Event</Button>
             <Modal
                 open={open}
                 onClose={handleClose}

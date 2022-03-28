@@ -46,7 +46,7 @@ const Home: NextPage = () => {
 
         <NewEvent />
 
-        <Box mx={3} mr={4} flex="1 1 300px" sx={{overflowY: "scroll"}} p={1}>
+        <Box px={5} pr={1} mr={5} flex="1 1 300px" sx={{overflowY: "scroll"}}>
           {data.map((item, i) => <EventItem key={item.id} event={item} scrollTo={scrollTo(i)} handleOpen={handleOpen(item)} />)}
         </Box>
 

@@ -17,27 +17,29 @@ interface TimelineProps {
 const IconWrapper = styled('div')(() => ({
     width: 128,
     height: "100%",
-    paddingTop: 72,
     display: "flex",
-    alignItem: "center",
+    alignItems: "flex-end",
     justifyContent: "center"
 }));
 
 export const Timeline: React.FC<TimelineProps> = ({ data, index, setIndex }) => {
 
-    data.sort((a, b) => {
-        if (a.date[0] - b.date[0]) return a.date[0] - b.date[0];
-        if (a.date[1] - b.date[1]) return a.date[2] - b.date[2];
-        if (a.date[2] - b.date[2]) return a.date[2] - b.date[2];
-        return 0;
-    });
-
     const [scroll, setScroll] = useState(0);
+
+    const handleScroll = (event: any) => {
+        const dir = event.wheelDelta ? event.wheelDelta > 0 : event.deltaY < 0;
+        if (dir && index != data.length - 1 && data.length != 0) {
+            setIndex(index + 1);
+        }
+        else if (!dir && index != 0) {
+            setIndex(index - 1);
+        }
+    }
 
     useEffect(() => {
         const distance = data.reduce<number>((prev, curr, i) => {
             if (i <= index) {
-                const dist = i ? 100 + ((curr.date[0] - data[i - 1].date[0]) * 365 + (curr.date[1] - data[i - 1].date[1]) * 30 + (curr.date[2] - data[i - 1].date[2])) + 22  : 0;
+                const dist = i ? 75 + ((curr.date[0] - data[i - 1].date[0]) * 365 + (curr.date[1] - data[i - 1].date[1]) * 30 + (curr.date[2] - data[i - 1].date[2])) / 5 + 22 : 0;
                 return prev + dist;
             }
             else {
@@ -54,16 +56,16 @@ export const Timeline: React.FC<TimelineProps> = ({ data, index, setIndex }) => 
                     <ChevronLeftIcon />
                 </IconButton>
             </IconWrapper>
-            <Box mt={4} overflow="hidden" px={"calc(50vw - 128px)"} width="calc(100vw - 256px)">
-                <Box ml={`-${scroll}px`} display="flex" alignItems="center" sx={{ transition: "margin 0.5s" }}>
+            <Box mt={2} overflow="hidden" px="calc(50vw - 128px)" width="calc(100vw - 256px)" onWheel={handleScroll}>
+                <Box ml={`-${scroll}px`} display="flex" alignItems="flex-end" sx={{ transition: "margin 0.5s" }}>
                     {data.map((item, i) => (<>
                         {!!i &&
                             <Box
                                 key={`line-${item.id}`}
                                 flexShrink={0}
-                                mt={5.5}
+                                mb={1.5}
                                 borderTop="2px solid #d8d8da"
-                                width={100 + ((item.date[0] - data[i - 1].date[0]) * 365 + (item.date[1] - data[i - 1].date[1]) * 30 + (item.date[2] - data[i - 1].date[2]))}
+                                width={75 + ((item.date[0] - data[i - 1].date[0]) * 365 + (item.date[1] - data[i - 1].date[1]) * 30 + (item.date[2] - data[i - 1].date[2])) / 5}
                             />
                         }
 
@@ -81,7 +83,7 @@ export const Timeline: React.FC<TimelineProps> = ({ data, index, setIndex }) => 
                                 }
                             </Typography>
 
-                            <Typography width={100} textAlign="center" fontWeight="bold">
+                            <Typography width={100} maxHeight={60} overflow="hidden" display="-webkit-box" sx={{ "-webkit-line-clamp": "3", "-webkit-box-orient": "vertical" }} textAlign="center" fontSize="small" fontWeight="bold">
                                 {item.name}
                             </Typography>
 
