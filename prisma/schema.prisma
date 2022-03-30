@@ -12,8 +12,8 @@ model HistoricalEvent {
   name         String
   description  String?
   date         DateTime
-  monthPresent Boolean  
-  datePresent  Boolean  
+  monthPresent Boolean
+  datePresent  Boolean
   leader       Leader?  @relation(fields: [leaderId], references: [id])
   leaderId     String?
 }
@@ -22,5 +22,13 @@ model Leader {
   id              String            @id @default(uuid())
   name            String
   color           String
+  country         Country?          @relation(fields: [countryId], references: [id])
+  countryId       String?
   HistoricalEvent HistoricalEvent[]
+}
+
+model Country {
+  id     String   @id @default(uuid())
+  name   String
+  Leader Leader[]
 }
