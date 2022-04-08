@@ -12,17 +12,11 @@ import { HistoricalEvent } from '../util/type';
 
 const Home: NextPage = () => {
 
-  const { isLoading, data: eventData } = useQuery('eventData', () =>
+  const { isLoading, data } = useQuery('eventData', () =>
     fetch('/api/event').then(res =>
       res.json()
     )
-  )
-
-  const [data, setData] = useState<HistoricalEvent[]>([])
-
-  useEffect(() => {
-    if (eventData) setData(eventData)
-  }, [eventData])
+  ) as { isLoading: boolean, data: HistoricalEvent[] }
 
   const [index, setIndex] = useState(0);
   const scrollTo = (i: number) => () => setIndex(i);
@@ -46,8 +40,8 @@ const Home: NextPage = () => {
 
         <NewEvent />
 
-        <Box px={5} pr={1} mr={5} flex="1 1 300px" sx={{overflowY: "scroll"}}>
-          {data.map((item, i) => <EventItem key={item.id} event={item} scrollTo={scrollTo(i)} handleOpen={handleOpen(item)} />)}
+        <Box px={5} pr={1} mr={5} flex="1 1 300px" sx={{ overflowY: "scroll" }}>
+          {(data || []).map((item, i) => <EventItem key={item.id} event={item} scrollTo={scrollTo(i)} handleOpen={handleOpen(item)} />)}
         </Box>
 
         <EditEvent event={activeItem} handleClose={handleClose} />

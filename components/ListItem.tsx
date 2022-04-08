@@ -9,13 +9,11 @@ import { HistoricalEvent } from "../util/type";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-interface EventItemProps {
-    event: HistoricalEvent;
+interface ListItemProps {
     handleOpen: () => void;
-    scrollTo: () => void;
 };
 
-export const EventItem: React.FC<EventItemProps> = ({ event, scrollTo, handleOpen }) => {
+export const ListItem: React.FC<ListItemProps> = ({ children, handleOpen }) => {
 
     const [hover, setHover] = useState(false);
 
@@ -50,17 +48,7 @@ export const EventItem: React.FC<EventItemProps> = ({ event, scrollTo, handleOpe
                 </Menu>
             </Box>
             <Box display="flex" padding={1} fontSize="small" onClick={scrollTo} onDoubleClick={handleOpen}>
-                <Typography width={150}>
-                    {
-                        event.monthPresent && event.datePresent
-                            ? toHumanDate(event.date, { month: true, date: true })
-                            : event.monthPresent
-                                ? toHumanDate(event.date, { month: true })
-                                : toHumanDate(event.date)
-                    }
-                </Typography>
-                <Typography width={100}>{event.leader?.name}</Typography>
-                <Typography width="50vw" textOverflow="ellipsis">{event.name}</Typography>
+                {children}
             </Box>
         </Paper>
     );

@@ -4,9 +4,10 @@ import Modal from '@mui/material/Modal';
 import { Form, Formik } from "formik";
 import Box from "@mui/material/Box";
 import { InputField } from "./form/InputField";
-import { useMutation, useQueryClient } from "react-query";
+import { InputSelect } from "./form/InputSelect";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
-import { HistoricalEvent } from "../util/type";
+import { HistoricalEvent, Leader } from "../util/type";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
@@ -19,7 +20,7 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
     const queryClient = useQueryClient()
 
     const mutation = useMutation(
-        (newEvent: any) => axios.put(`/api/event?id=${newEvent.id}&name=${newEvent.name}&description=${newEvent.description}&date=${newEvent.date}&monthPresent=${newEvent.monthPresent}&datePresent=${newEvent.datePresent}`),
+        (newEvent: any) => axios.put(`/api/event?id=${newEvent.id}&name=${newEvent.name}&description=${newEvent.description}&date=${newEvent.date}&monthPresent=${newEvent.monthPresent}&datePresent=${newEvent.datePresent}&leader=${newEvent.leader}`),
         {
             onSuccess: data => {
                 queryClient.setQueryData("eventData", data.data)
@@ -38,6 +39,12 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
         }
     )
 
+    const { isLoading: leaderLoading, data: leaderData } = useQuery('leaderData', () =>
+        fetch('/api/leader').then(res =>
+            res.json()
+        )
+    ) as unknown as { isLoading: boolean, data: Leader[] };
+
     return (
         <Modal
             open={!!event}
@@ -51,7 +58,8 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
                     description: event?.description,
                     year: event?.date[0],
                     month: event?.monthPresent ? event.date[1] : undefined,
-                    date: event?.datePresent ? event.date[2] : undefined
+                    date: event?.datePresent ? event.date[2] : undefined,
+                    leader: event?.leaderId
                 }}
 
                 // Submit function
@@ -62,7 +70,8 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
                         description: values.description,
                         date: `${values.year}-${values.month ? values.month : 1}-${values.date ? values.date : 1}`,
                         monthPresent: !!values.month,
-                        datePresent: !!values.date
+                        datePresent: !!values.date,
+                        leader: values.leader
                     })
                 }}
             >
@@ -81,14 +90,30 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
                             flexDirection: "column"
                         }}>
 
-                            <InputField
-                                label="Name"
-                                name="name"
-                                autoComplete="off"
-                                placeholder="Untitled"
-                                variant="filled"
-                                required
-                            />
+                            <Box display="flex">
+                                <InputField
+                                    label="Name"
+                                    name="name"
+                                    autoComplete="off"
+                                    placeholder="Untitled"
+                                    variant="filled"
+                                    required
+                                    containerStyle={{ marginRight: 4, width: 300 }}
+                                />
+
+                                <InputSelect
+                                    label="Leader"
+                                    name="leader"
+                                    variant="filled"
+                                    options={[{ name: "N/A", id: "undefined" }, ...(leaderData || [])].map(leader => (
+                                        {
+                                            name: leader.name,
+                                            value: leader.id
+                                        }
+                                    ))}
+                                    containerStyle={{ width: 200 }}
+                                />
+                            </Box>
 
                             <InputField
                                 label="Description"
@@ -128,18 +153,6 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
                                     containerStyle={{ marginRight: 4 }}
                                 />
                             </Box>
-
-                            {/* <InputSelect
-                                    label="Color"
-                                    name="color"
-                                    variant="filled"
-                                    options={[
-                                        {
-                                            name: "Green",
-                                            value: "#5efc8d"
-                                        },
-                                    ]}
-                                /> */}
 
                             {/* Submit Button */}
                             <Box marginTop={4} display="flex">

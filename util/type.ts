@@ -5,8 +5,12 @@ export interface HistoricalEvent {
     description: string,
     monthPresent?: boolean,
     datePresent?: boolean,
-    leader?: {
-        name: string,
-        color: string
-    }
+    leader?: Leader,
+    leaderId: string
 };
+
+export interface Leader {
+    id: string,
+    name: string,
+    color: string
+}
