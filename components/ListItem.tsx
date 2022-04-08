@@ -47,7 +47,7 @@ export const ListItem: React.FC<ListItemProps> = ({ children, handleOpen }) => {
                     }}>Edit</MenuItem>
                 </Menu>
             </Box>
-            <Box display="flex" padding={1} fontSize="small" onClick={scrollTo} onDoubleClick={handleOpen}>
+            <Box display="flex" padding={1} fontSize="small" onDoubleClick={handleOpen}>
                 {children}
             </Box>
         </Paper>
