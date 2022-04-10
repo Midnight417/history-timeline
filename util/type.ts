@@ -6,11 +6,24 @@ export interface HistoricalEvent {
     monthPresent?: boolean,
     datePresent?: boolean,
     leader?: Leader,
-    leaderId: string
+    leaderId: string,
+    country?: Country,
+    countryId: string,
 };
 
 export interface Leader {
     id: string,
     name: string,
-    color: string
+    color: string,
+    historicalEvent?: HistoricalEvent[],
+    country: Country,
+    countryId: string,
+}
+
+export interface Country {
+    id: string,
+    name: string,
+    color: string,
+    leader?: Leader[],
+    historicalEvent?: HistoricalEvent[],
 }

@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { EditEvent } from '../components/EditEvent';
 import { EventItem } from '../components/EventItem';
 import { Headbar } from '../components/Headbar'
-import { NewEvent } from '../components/NewEvent';
 import { Timeline } from '../components/Timeline'
 import { HistoricalEvent } from '../util/type';
 
@@ -21,8 +21,8 @@ const Home: NextPage = () => {
   const [index, setIndex] = useState(0);
   const scrollTo = (i: number) => () => setIndex(i);
 
-  const [activeItem, setActiveItem] = useState<HistoricalEvent | undefined>(undefined);
-  const handleOpen = (item: HistoricalEvent) => () => setActiveItem(item);
+  const [activeItem, setActiveItem] = useState<HistoricalEvent | undefined | null>(undefined);
+  const handleOpen = (item: HistoricalEvent | null) => () => setActiveItem(item);
   const handleClose = () => setActiveItem(undefined);
 
   return (
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
 
         <Timeline data={data} index={index} setIndex={setIndex} />
 
-        <NewEvent />
+        <Button onClick={handleOpen(null)} sx={{ margin: 5, marginBottom: 2, marginTop: 1 }} variant="contained">+ Add Event</Button>
 
         <Box px={5} pr={1} mr={5} flex="1 1 300px" sx={{ overflowY: "scroll" }}>
           {(data || []).map((item, i) => <EventItem key={item.id} event={item} scrollTo={scrollTo(i)} handleOpen={handleOpen(item)} />)}
@@ -50,6 +50,6 @@ const Home: NextPage = () => {
 
     </>
   )
-}
+} 
 
 export default Home

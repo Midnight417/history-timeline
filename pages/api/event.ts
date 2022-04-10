@@ -8,13 +8,13 @@ const event = async (
 ) => {
 
   if (req.method === "GET") {
-    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true } }))
+    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true, country: true } }))
     res.status(200).json(events.map(item => ({ ...item, date: item.date.toISOString().slice(0, 10).split("-") })))
   }
 
   else if (req.method === "POST") {
 
-    const { name, description, date, monthPresent, datePresent, leader } = req.query as Record<string, string>;
+    const { name, description, date, monthPresent, datePresent, leader, country } = req.query as Record<string, string>;
 
     if (!name || !date) {
       res.status(400);
@@ -29,7 +29,8 @@ const event = async (
           date: new Date(date),
           monthPresent: monthPresent == "true",
           datePresent: datePresent == "true",
-          leaderId: leader == "undefined" ? null : leader
+          leaderId: leader == "undefined" ? null : leader,
+          countryId: country == "undefined" ? null : country
         }
       })
     }
@@ -43,7 +44,7 @@ const event = async (
 
   else if (req.method === "PUT") {
 
-    const { id, name, description, date, monthPresent, datePresent, leader } = req.query as Record<string, string>;
+    const { id, name, description, date, monthPresent, datePresent, leader, country } = req.query as Record<string, string>;
 
     if (!id) {
       res.status(400);
@@ -61,7 +62,8 @@ const event = async (
           date: new Date(date),
           monthPresent: monthPresent == "true",
           datePresent: datePresent == "true",
-          leaderId: leader == "undefined" ? null : leader
+          leaderId: leader == "undefined" ? null : leader,
+          countryId: country == "undefined" ? null : country
         }
       })
     }

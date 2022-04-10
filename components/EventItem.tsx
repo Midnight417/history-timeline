@@ -60,6 +60,7 @@ export const EventItem: React.FC<EventItemProps> = ({ event, scrollTo, handleOpe
                     }
                 </Typography>
                 <Typography width={100}>{event.leader?.name}</Typography>
+                <Typography width={100}>{event.country?.name}</Typography>
                 <Typography width="50vw" textOverflow="ellipsis">{event.name}</Typography>
             </Box>
         </Paper>

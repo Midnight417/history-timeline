@@ -2,19 +2,19 @@
 import { prisma } from '../../util/db';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const leader = async (
+const country = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
 
   if (req.method === "GET") {
-    const leaders = (await prisma.leader.findMany({ orderBy: { name: "asc" }, include: { country: true } }))
-    res.status(200).json(leaders)
+    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countrys)
   }
 
   else if (req.method === "POST") {
 
-    const { name, color, country } = req.query as Record<string, string>;
+    const { name, color } = req.query as Record<string, string>;
 
     if (!name || !color) {
       res.status(400);
@@ -22,11 +22,10 @@ const leader = async (
     }
 
     try {
-      await prisma.leader.create({
+      await prisma.country.create({
         data: {
           name: name,
           color: color,
-          countryId: country == "undefined" ? null : country
         }
       })
     }
@@ -34,13 +33,13 @@ const leader = async (
       res.status(400).send(err);
     }
 
-    const leaders = (await prisma.leader.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(leaders)
+    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countrys)
   }
 
   else if (req.method === "PUT") {
 
-    const { id, name, color, country } = req.query as Record<string, string>;
+    const { id, name, color } = req.query as Record<string, string>;
 
     if (!id) {
       res.status(400);
@@ -48,14 +47,13 @@ const leader = async (
     }
 
     try {
-      await prisma.leader.update({
+      await prisma.country.update({
         where: {
           id: id,
         },
         data: {
           name: name,
           color: color,
-          countryId: country == "undefined" ? null : country
         }
       })
     }
@@ -64,8 +62,8 @@ const leader = async (
       return;
     }
 
-    const leaders = (await prisma.leader.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(leaders)
+    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countrys)
   }
   else if (req.method === "DELETE") {
 
@@ -77,7 +75,7 @@ const leader = async (
     }
 
     try {
-      await prisma.leader.delete({
+      await prisma.country.delete({
         where: {
           id: id,
         }
@@ -87,9 +85,9 @@ const leader = async (
       res.status(400).send(err);
     }
 
-    const leaders = (await prisma.leader.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(leaders)
+    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countrys)
   }
 }
 
-export default leader;
+export default country;

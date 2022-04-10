@@ -16,6 +16,8 @@ model HistoricalEvent {
   datePresent  Boolean
   leader       Leader?  @relation(fields: [leaderId], references: [id])
   leaderId     String?
+  country      Country? @relation(fields: [countryId], references: [id])
+  countryId    String?
 }
 
 model Leader {
@@ -28,7 +30,9 @@ model Leader {
 }
 
 model Country {
-  id     String   @id @default(uuid())
-  name   String
-  Leader Leader[]
+  id              String            @id @default(uuid())
+  name            String
+  color           String
+  Leader          Leader[]
+  HistoricalEvent HistoricalEvent[]
 }
