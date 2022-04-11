@@ -38,7 +38,7 @@ const event = async (
       res.status(400).send(err);
     }
 
-    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true } }))
+    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true, country: true } }))
     res.status(200).json(events.map(item => ({ ...item, date: item.date.toISOString().slice(0, 10).split("-") })))
   }
 
@@ -72,7 +72,7 @@ const event = async (
       return;
     }
 
-    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true } }))
+    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true, country: true } }))
     res.status(200).json(events.map(item => ({ ...item, date: item.date.toISOString().slice(0, 10).split("-") })))
   }
   else if (req.method === "DELETE") {
@@ -95,7 +95,7 @@ const event = async (
       res.status(400).send(err);
     }
 
-    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true } }))
+    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true, country: true } }))
     res.status(200).json(events.map(item => ({ ...item, date: item.date.toISOString().slice(0, 10).split("-") })))
   }
 }

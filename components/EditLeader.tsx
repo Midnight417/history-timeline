@@ -5,6 +5,7 @@ import { Form, Formik } from "formik";
 import Box from "@mui/material/Box";
 import { InputField } from "./form/InputField";
 import { InputSelect } from "./form/InputSelect";
+import { InputColor } from "./form/InputColor";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { Country, Leader } from "../util/type";
@@ -97,7 +98,7 @@ export const EditLeader: React.FC<EditLeaderProps> = ({ leader, handleClose }) =
                         <Box display="flex">
                             <h3>{leader ? "Edit" : "Add"} Leader</h3>
 
-                            <IconButton sx={{ marginLeft: "auto" }} onClick={handleClose}>
+                            <IconButton sx={{ marginLeft: "auto", width: 36, height: 36 }} onClick={handleClose}>
                                 <CloseIcon />
                             </IconButton>
                         </Box>
@@ -122,16 +123,6 @@ export const EditLeader: React.FC<EditLeaderProps> = ({ leader, handleClose }) =
                                     containerStyle={{ marginRight: 4, width: 300 }}
                                 />
 
-                                <InputField
-                                    label="Color"
-                                    name="color"
-                                    autoComplete="off"
-                                    variant="filled"
-                                    placeholder="orange"
-                                    required
-                                    containerStyle={{ marginRight: 4, width: 300 }}
-                                />
-
                                 <InputSelect
                                     label="Country"
                                     name="country"
@@ -142,7 +133,16 @@ export const EditLeader: React.FC<EditLeaderProps> = ({ leader, handleClose }) =
                                             value: country.id
                                         }
                                     ))}
-                                    containerStyle={{ width: 200 }}
+                                    containerStyle={{ marginRight: 4, width: 200 }}
+                                />
+
+                                <InputColor
+                                    label="Color"
+                                    name="color"
+                                    autoComplete="off"
+                                    placeholder="orange"
+                                    required
+                                    containerStyle={{ width: 300 }}
                                 />
                             </Box>
 

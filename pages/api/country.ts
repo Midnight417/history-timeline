@@ -8,8 +8,8 @@ const country = async (
 ) => {
 
   if (req.method === "GET") {
-    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(countrys)
+    const countries = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countries)
   }
 
   else if (req.method === "POST") {
@@ -33,8 +33,8 @@ const country = async (
       res.status(400).send(err);
     }
 
-    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(countrys)
+    const countries = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countries)
   }
 
   else if (req.method === "PUT") {
@@ -62,8 +62,8 @@ const country = async (
       return;
     }
 
-    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(countrys)
+    const countries = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countries)
   }
   else if (req.method === "DELETE") {
 
@@ -85,8 +85,8 @@ const country = async (
       res.status(400).send(err);
     }
 
-    const countrys = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
-    res.status(200).json(countrys)
+    const countries = (await prisma.country.findMany({ orderBy: { name: "asc" } }))
+    res.status(200).json(countries)
   }
 }
 

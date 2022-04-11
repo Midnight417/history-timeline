@@ -85,12 +85,12 @@ export const Timeline: React.FC<TimelineProps> = ({ data, index, setIndex }) => 
                                 }
                             </Typography>
 
-                            <Typography width={100} maxHeight={60} color={index == i ? item.leader?.color || "orange" : "black"} overflow="hidden" display="-webkit-box" sx={{ "-webkit-line-clamp": "3", "-webkit-box-orient": "vertical" }} textAlign="center" fontSize="small" fontWeight="bold">
+                            <Typography width={100} maxHeight={60} color={index == i ? item.leader?.color || item.country?.color || "orange" : "black"} overflow="hidden" display="-webkit-box" sx={{ "-webkit-line-clamp": "3", "-webkit-box-orient": "vertical" }} textAlign="center" fontSize="small" fontWeight="bold">
                                 {item.name}
                             </Typography>
 
                             <svg viewBox="0 0 50 100" width="15px">
-                                <polygon points="2 25, 2 75, 25 100, 48 75, 48 25" fill={item.leader?.color || "orange"} />
+                                <polygon points="2 25, 2 75, 25 100, 48 75, 48 25" fill={item.leader?.color || item.country?.color || "orange"} />
                             </svg>
                         </Box>
                     </>))}

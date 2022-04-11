@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import { Form, Formik } from "formik";
 import Box from "@mui/material/Box";
 import { InputField } from "./form/InputField";
+import { InputColor } from "./form/InputColor";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Country } from "../util/type";
@@ -88,7 +89,7 @@ export const EditCountry: React.FC<EditCountryProps> = ({ country, handleClose }
                         <Box display="flex">
                             <h3>{country ? "Edit" : "Add"} Country</h3>
 
-                            <IconButton sx={{ marginLeft: "auto" }} onClick={handleClose}>
+                            <IconButton sx={{ marginLeft: "auto", width: 36, height: 36 }} onClick={handleClose}>
                                 <CloseIcon />
                             </IconButton>
                         </Box>
@@ -113,14 +114,13 @@ export const EditCountry: React.FC<EditCountryProps> = ({ country, handleClose }
                                     containerStyle={{ marginRight: 4, width: 300 }}
                                 />
 
-                                <InputField
+                                <InputColor
                                     label="Color"
                                     name="color"
                                     autoComplete="off"
-                                    variant="filled"
                                     placeholder="orange"
                                     required
-                                    containerStyle={{ marginRight: 4, width: 300 }}
+                                    containerStyle={{ width: 300 }}
                                 />
                             </Box>
 
