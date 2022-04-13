@@ -62,8 +62,8 @@ export const ListItem: React.FC<ListItemProps> = ({ title, text, color, handleOp
                     <CircleIcon sx={{ width: 16, height: 16, mr: 1, color: color }} /> {title}
                 </Typography>
 
-                {text?.map(item => (
-                    <Typography
+                {text?.map((item, i) => (
+                    <Typography key={i}
                         component="div"
                     >
                         {item}
