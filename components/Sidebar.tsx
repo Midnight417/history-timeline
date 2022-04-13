@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
                 </a>
             </Link>
 
-            <Link href="/timeline">
+            {/* <Link href="/timeline">
                 <a>
                     <ListItem button sx={{ width: 300 }}>
                         <ListItemIcon>
@@ -52,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
                         <ListItemText primary="Historical Timeline" />
                     </ListItem>
                 </a>
-            </Link>
+            </Link> */}
 
             <Typography
                 variant="h6"
