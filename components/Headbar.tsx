@@ -66,7 +66,7 @@ export const Headbar: React.FC<headbarProps> = ({ }) => {
 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static">
         <Toolbar>
           <IconButton

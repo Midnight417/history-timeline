@@ -32,10 +32,25 @@ const Home: NextPage = () => {
       <Box display="flex" flexDirection="column" height="100vh" pb={4}>
         <Headbar />
 
-        <Button onClick={handleOpen(null)} sx={{ margin: 5, marginBottom: 2, marginTop: 1 }} variant="contained">+ Add Leader</Button>
+        <Box px={5} pr={1} mr={5} mt={4} flex="1 1 400px" display="flex" flexWrap="wrap" alignItems="flex-start" justifyContent="flex-start">
 
-        <Box px={5} pr={1} mr={5} flex="1 1 400px" sx={{ overflowY: "scroll" }}>
-          {(data || []).map((item, i) => <ListItem key={item.id} handleOpen={handleOpen(item)}>{item.name}</ListItem>)}
+          <Button
+            onClick={handleOpen(null)}
+            sx={{ mr: 2, width: 200, height: 175 }}
+            variant="outlined"
+          >
+            + Add Leader
+          </Button>
+
+          {(data || []).map((item, i) => (
+            <ListItem
+              key={item.id}
+              handleOpen={handleOpen(item)}
+              title={item.name}
+              text={[item.country.name]}
+              color={item.color}
+            />
+          ))}
         </Box>
 
         <EditLeader leader={activeItem} handleClose={handleClose} />
