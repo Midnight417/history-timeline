@@ -152,7 +152,7 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
                                     ))}
                                     containerStyle={{ marginRight: 4, width: 200 }}
                                     onChange={(value) => {
-                                        const newLeader = leaderData.find(item => item.id == value);
+                                        const newLeader = leaderData?.find(item => item.id == value);
                                         if (values.country === "undefined") setFieldValue("country", newLeader?.countryId || "undefined")
                                     }}
                                 />

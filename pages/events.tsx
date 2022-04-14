@@ -36,7 +36,7 @@ const Home: NextPage = () => {
       <Box display="flex" flexDirection="column" height="100vh" pb={4}>
         <Headbar />
 
-        <Timeline data={data} index={index} setIndex={setIndex} />
+        <Timeline data={data || []} index={index} setIndex={setIndex} />
 
         <Button onClick={handleOpen(null)} sx={{ margin: 5, marginBottom: 2, marginTop: 1 }} variant="contained">+ Add Event</Button>
 
