@@ -7,7 +7,7 @@ import { InputField } from "./form/InputField";
 import { InputColor } from "./form/InputColor";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
-import { Country } from "../util/type";
+import { Country } from "../util/types";
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';

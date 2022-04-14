@@ -5,7 +5,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
-import { HistoricalEvent } from '../util/type';
+import { HistoricalEvent } from '../util/types';
 import { toHumanDate } from "../util/const";
 
 interface TimelineProps {
@@ -23,8 +23,6 @@ const IconWrapper = styled('div')(() => ({
 }));
 
 export const Timeline: React.FC<TimelineProps> = ({ data, index, setIndex }) => {
-
-    if (!data) data = [];
 
     const [scroll, setScroll] = useState(0);
 
@@ -52,7 +50,7 @@ export const Timeline: React.FC<TimelineProps> = ({ data, index, setIndex }) => 
     }, [index, data]);
 
     return (
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" mt={2} height={150}>
             <IconWrapper>
                 <IconButton onClick={() => { setIndex(index - 1) }} disabled={!index}>
                     <ChevronLeftIcon />

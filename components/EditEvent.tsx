@@ -7,7 +7,7 @@ import { InputField } from "./form/InputField";
 import { InputSelect } from "./form/InputSelect";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
-import { HistoricalEvent, Leader, Country } from "../util/type";
+import { HistoricalEvent, Leader, Country } from "../util/types";
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -50,17 +50,17 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
         }
     )
 
-    const { data: leaderData } = useQuery('leaderData', () =>
+    const { data: leaderData } = useQuery<Leader[]>('leaderData', () =>
         fetch('/api/leader').then(res =>
             res.json()
         )
-    ) as unknown as { data: Leader[] };
+    )
 
-    const { data: countryData } = useQuery('countryData', () =>
+    const { data: countryData } = useQuery<Country[]>('countryData', () =>
         fetch('/api/country').then(res =>
             res.json()
         )
-    ) as unknown as { data: Country[] };
+    )
 
     return (
         <Modal

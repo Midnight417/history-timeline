@@ -8,7 +8,7 @@ import { InputSelect } from "./form/InputSelect";
 import { InputColor } from "./form/InputColor";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
-import { Country, Leader } from "../util/type";
+import { Country, Leader } from "../util/types";
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -51,11 +51,11 @@ export const EditLeader: React.FC<EditLeaderProps> = ({ leader, handleClose }) =
         }
     )
 
-    const { isLoading: countryLoading, data: countryData } = useQuery('countryData', () =>
+    const { isLoading: countryLoading, data: countryData } = useQuery<Country[]>('countryData', () =>
         fetch('/api/country').then(res =>
             res.json()
         )
-    ) as unknown as { isLoading: boolean, data: Country[] };
+    )
 
     return (
         <Modal

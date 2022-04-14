@@ -23,6 +23,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
             onClose={toggleDrawer}
         >
             <Typography
+                variant="h5"
+                noWrap
+                component="div"
+                fontSize={24}
+                m={2}
+                mb={0.5}
+            >
+                IB History HL Timeline
+            </Typography>
+
+            <Typography
                 variant="h6"
                 noWrap
                 component="div"
@@ -30,20 +41,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
                 m={2}
                 mb={0.5}
             >
-                IB History HL Timeline
+                Studying
             </Typography>
-            <Link href="/">
-                <a>
-                    <ListItem button sx={{ width: 300 }}>
-                        <ListItemIcon>
-                            <EventNoteIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Historical Events" />
-                    </ListItem>
-                </a>
-            </Link>
 
-            {/* <Link href="/timeline">
+            <Link href="/">
                 <a>
                     <ListItem button sx={{ width: 300 }}>
                         <ListItemIcon>
@@ -52,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
                         <ListItemText primary="Historical Timeline" />
                     </ListItem>
                 </a>
-            </Link> */}
+            </Link>
 
             <Typography
                 variant="h6"
@@ -65,7 +66,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
                 Database
             </Typography>
 
-            <Link href="/leader">
+            <Link href="/events">
+                <a>
+                    <ListItem button sx={{ width: 300 }}>
+                        <ListItemIcon>
+                            <EventNoteIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Historical Events" />
+                    </ListItem>
+                </a>
+            </Link>
+
+            <Link href="/leaders">
                 <a>
                     <ListItem button sx={{ width: 300 }}>
                         <ListItemIcon>
@@ -76,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }) => {
                 </a>
             </Link>
 
-            <Link href="/country">
+            <Link href="/countries">
                 <a>
                     <ListItem button sx={{ width: 300 }}>
                         <ListItemIcon>

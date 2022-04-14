@@ -27,3 +27,10 @@ export interface Country {
     leader?: Leader[],
     historicalEvent?: HistoricalEvent[],
 }
+
+export interface Filter {
+    startDate: Date | null,
+    endDate: Date | null,
+    leader: string[],
+    country: string[]
+}

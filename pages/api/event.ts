@@ -8,7 +8,30 @@ const event = async (
 ) => {
 
   if (req.method === "GET") {
-    const events = (await prisma.historicalEvent.findMany({ orderBy: { date: "asc" }, include: { leader: true, country: true } }))
+
+    const { startDate, endDate, leader, country } = req.query as Record<string, string>;
+
+    const where: any = {};
+
+    if (startDate || endDate) {
+      where.date = {};
+      if (startDate) where.date.gte = new Date(`${startDate}`);
+      if (endDate) where.date.lte = new Date(`${endDate}`);
+    }
+
+
+    if (leader || country) {
+      where.OR = [];
+      if (leader) where.OR.push(...leader.split(",").map(leaderId => ({ leaderId })));
+      if (country) where.OR.push(...country.split(",").map(countryId => ({ countryId })))
+    }
+
+    const events = (await prisma.historicalEvent.findMany({
+      orderBy: { date: "asc" },
+      include: { leader: true, country: true },
+      where
+    }))
+
     res.status(200).json(events.map(item => ({ ...item, date: item.date.toISOString().slice(0, 10).split("-") })))
   }
 

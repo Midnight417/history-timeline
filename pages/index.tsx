@@ -1,29 +1,47 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { EditEvent } from '../components/EditEvent';
-import { EventItem } from '../components/EventItem';
+import { EventFilter } from '../components/EventFilter';
 import { Headbar } from '../components/Headbar'
 import { Timeline } from '../components/Timeline'
-import { HistoricalEvent } from '../util/type';
+import { HistoricalEvent, Filter } from '../util/types';
+import { format } from 'date-fns'
+import { useQueryClient } from "react-query";
 
 const Home: NextPage = () => {
+  const queryClient = useQueryClient()
 
-  const { isLoading, data } = useQuery('eventData', () =>
-    fetch('/api/event').then(res =>
-      res.json()
-    )
-  ) as { isLoading: boolean, data: HistoricalEvent[] }
+  const [params, setParams] = useState<Filter>({
+    startDate: null,
+    endDate: null,
+    leader: [],
+    country: []
+  })
+
+  const { data } = useQuery<HistoricalEvent[]>('eventData', () => {
+    let queries = [];
+    if (params.startDate) queries.push(`startDate=${format(params.startDate, "yyyy-MM-dd")}`);
+    if (params.endDate) queries.push(`endDate=${format(params.endDate, "yyyy-MM-dd")}`);
+    if (params.leader.length) queries.push(`leader=${params.leader.join(",")}`);
+    if (params.country.length) queries.push(`country=${params.country.join(",")}`);
+    return fetch("/api/event?").then(res => res.json());
+  })
 
   const [index, setIndex] = useState(0);
-  const scrollTo = (i: number) => () => setIndex(i);
 
-  const [activeItem, setActiveItem] = useState<HistoricalEvent | undefined | null>(undefined);
-  const handleOpen = (item: HistoricalEvent | null) => () => setActiveItem(item);
-  const handleClose = () => setActiveItem(undefined);
+  useEffect(() => {
+    let queries = [];
+    if (params.startDate) queries.push(`startDate=${format(params.startDate, "yyyy-MM-dd")}`);
+    if (params.endDate) queries.push(`endDate=${format(params.endDate, "yyyy-MM-dd")}`);
+    if (params.leader.length) queries.push(`leader=${params.leader.join(",")}`);
+    if (params.country.length) queries.push(`country=${params.country.join(",")}`);
+    fetch("/api/event?" + queries.join("&")).then(res => res.json()).then(res => { queryClient.setQueryData("eventData", res), console.log(res) });
+    setIndex(0);
+  }, [params.startDate?.getTime(), params.endDate?.getTime(), JSON.stringify(params.leader), JSON.stringify(params.country)])
 
   return (
     <>
@@ -36,20 +54,48 @@ const Home: NextPage = () => {
       <Box display="flex" flexDirection="column" height="100vh" pb={4}>
         <Headbar />
 
-        <Timeline data={data} index={index} setIndex={setIndex} />
+        <Timeline data={data || []} index={index} setIndex={setIndex} />
 
-        <Button onClick={handleOpen(null)} sx={{ margin: 5, marginBottom: 2, marginTop: 1 }} variant="contained">+ Add Event</Button>
+        <EventFilter useParams={[params, setParams]} />
 
-        <Box px={5} pr={1} mr={5} flex="1 1 300px" sx={{ overflowY: "scroll" }}>
-          {(data || []).map((item, i) => <EventItem key={item.id} event={item} scrollTo={scrollTo(i)} handleOpen={handleOpen(item)} />)}
-        </Box>
+        <Paper elevation={4} sx={{ mx: 5, mt: 3, p: 2, flex: "1 1 300px", borderRadius: 2 }}>
+          {!!data?.length &&
+            <>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+              >
+                {data[index]?.name}
+              </Typography>
 
-        <EditEvent event={activeItem} handleClose={handleClose} />
+              <Box display="flex">
+                {!!data[index].country?.name &&
+                  <Typography mr={2}>
+                    Country: <i>{data[index]?.country?.name}</i>
+                  </Typography>
+                }
+                {!!data[index].leader?.name &&
+                  <Typography>
+                    Leader: <i>{data[index]?.leader?.name}</i>
+                  </Typography>
+                }
+              </Box>
+
+              <Typography
+                component="div"
+                mt={2}
+              >
+                {data[index].description}
+              </Typography>
+
+            </>}
+        </Paper>
 
       </Box>
 
     </>
   )
-} 
+}
 
 export default Home

@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { toHumanDate } from "../util/const";
-import { HistoricalEvent } from "../util/type";
+import { HistoricalEvent } from "../util/types";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 

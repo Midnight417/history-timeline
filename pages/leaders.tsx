@@ -6,16 +6,16 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { ListItem } from '../components/ListItem';
 import { Headbar } from '../components/Headbar'
-import { Leader } from '../util/type';
+import { Leader } from '../util/types';
 import { EditLeader } from '../components/EditLeader';
 
 const Home: NextPage = () => {
 
-  const { isLoading, data } = useQuery('leaderData', () =>
+  const { isLoading, data } = useQuery<Leader[]>('leaderData', () =>
     fetch('/api/leader').then(res =>
       res.json()
     )
-  ) as { isLoading: boolean, data: Leader[] }
+  )
 
   const [activeItem, setActiveItem] = useState<Leader | undefined | null>(undefined);
   const handleOpen = (item: Leader | null) => () => setActiveItem(item);
