@@ -11,3 +11,6 @@ export const toHumanDate = (date: [number, number, number], format?: {month?: bo
 
     return date[0]
 }
+
+const __prod__ = process.env.NODE_ENV === 'production';
+export const server = __prod__ ? 'https://rhs-ib-history-hl.herokuapp.com' : 'http://localhost:3000';

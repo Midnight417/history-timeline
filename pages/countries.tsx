@@ -44,7 +44,6 @@ const Home: NextPage = () => {
 
           {(data || []).map((item, i) => (
             <ListItem
-              key={item.id}
               handleOpen={handleOpen(item)}
               title={item.name}
               color={item.color}

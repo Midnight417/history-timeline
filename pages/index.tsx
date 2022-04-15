@@ -11,8 +11,13 @@ import { Timeline } from '../components/Timeline'
 import { HistoricalEvent, Filter } from '../util/types';
 import { format } from 'date-fns'
 import { useQueryClient } from "react-query";
+import { server } from '../util/consts';
 
-const Home: NextPage = () => {
+interface HomePageProps {
+  events: HistoricalEvent[];
+}
+
+const Home: NextPage<HomePageProps> = ({ events }) => {
   const queryClient = useQueryClient()
 
   const [params, setParams] = useState<Filter>({
@@ -28,8 +33,8 @@ const Home: NextPage = () => {
     if (params.endDate) queries.push(`endDate=${format(params.endDate, "yyyy-MM-dd")}`);
     if (params.leader.length) queries.push(`leader=${params.leader.join(",")}`);
     if (params.country.length) queries.push(`country=${params.country.join(",")}`);
-    return fetch("/api/event?").then(res => res.json());
-  })
+    return fetch("/api/event?" + queries.join("&")).then(res => res.json());
+  }, { initialData: events })
 
   const [index, setIndex] = useState(0);
 
@@ -39,7 +44,7 @@ const Home: NextPage = () => {
     if (params.endDate) queries.push(`endDate=${format(params.endDate, "yyyy-MM-dd")}`);
     if (params.leader.length) queries.push(`leader=${params.leader.join(",")}`);
     if (params.country.length) queries.push(`country=${params.country.join(",")}`);
-    fetch("/api/event?" + queries.join("&")).then(res => res.json()).then(res => { queryClient.setQueryData("eventData", res), console.log(res) });
+    fetch("/api/event?" + queries.join("&")).then(res => res.json()).then(res => { queryClient.setQueryData("eventData", res) });
     setIndex(0);
   }, [params.startDate?.getTime(), params.endDate?.getTime(), JSON.stringify(params.leader), JSON.stringify(params.country)])
 
@@ -99,3 +104,12 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getStaticProps() {
+  const events = await fetch(`${server}/api/event`).then(res => res.json()) || [] as HistoricalEvent[];
+  return {
+    props: {
+      events
+    }, // will be passed to the page component as props
+  }
+}

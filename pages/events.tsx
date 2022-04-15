@@ -8,14 +8,19 @@ import { EditEvent } from '../components/EditEvent';
 import { EventItem } from '../components/EventItem';
 import { Headbar } from '../components/Headbar'
 import { Timeline } from '../components/Timeline'
+import { server } from '../util/consts';
 import { HistoricalEvent } from '../util/types';
 
-const Home: NextPage = () => {
+interface EventsPageProps {
+  events: HistoricalEvent[];
+}
+
+const Events: NextPage<EventsPageProps> = ({ events }) => {
 
   const { data } = useQuery<HistoricalEvent[]>('eventData', () =>
     fetch('/api/event').then(res =>
       res.json()
-    )
+    ), { initialData: events }
   )
 
   const [index, setIndex] = useState(0);
@@ -50,6 +55,15 @@ const Home: NextPage = () => {
 
     </>
   )
-} 
+}
 
-export default Home
+export default Events
+
+export async function getStaticProps() {
+  const events = await fetch(`${server}/api/event`).then(res => res.json()) || [] as HistoricalEvent[];
+  return {
+    props: {
+      events
+    }, // will be passed to the page component as props
+  }
+}

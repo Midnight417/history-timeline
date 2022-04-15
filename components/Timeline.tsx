@@ -6,7 +6,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { HistoricalEvent } from '../util/types';
-import { toHumanDate } from "../util/const";
+import { toHumanDate } from "../util/consts";
 
 interface TimelineProps {
     data: HistoricalEvent[];
