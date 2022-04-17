@@ -27,6 +27,7 @@ model Leader {
   country         Country?          @relation(fields: [countryId], references: [id])
   countryId       String?
   HistoricalEvent HistoricalEvent[]
+  Period          Period[]
 }
 
 model Country {
@@ -35,4 +36,19 @@ model Country {
   color           String
   Leader          Leader[]
   HistoricalEvent HistoricalEvent[]
+  Period          Period[]
+}
+
+model Period {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  color       String
+  startDate   DateTime
+  endDate     DateTime
+  leader      Leader?  @relation(fields: [leaderId], references: [id])
+  country     Country? @relation(fields: [countryId], references: [id])
+
+  leaderId  String?
+  countryId String?
 }
