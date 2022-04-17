@@ -1,3 +1,6 @@
+import { UseRemirrorReturn, ReactExtensions } from "@remirror/react";
+import { BoldExtension, HeadingExtension, ItalicExtension, UnderlineExtension, ListItemSharedExtension, ListItemExtension, BulletListExtension, OrderedListExtension } from "remirror/extensions";
+
 export interface HistoricalEvent {
     id: string,
     name: string,
@@ -34,3 +37,5 @@ export interface Filter {
     leader: string[],
     country: string[]
 }
+
+export type EditorReturn = UseRemirrorReturn<ReactExtensions<BoldExtension | HeadingExtension | ItalicExtension | UnderlineExtension | ListItemSharedExtension | ListItemExtension | BulletListExtension | OrderedListExtension>>;

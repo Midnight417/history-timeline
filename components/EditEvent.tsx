@@ -11,6 +11,9 @@ import { HistoricalEvent, Leader, Country } from "../util/types";
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import dynamic from "next/dynamic";
+
+const RichTextEditor = dynamic<{ text: string, setValue: (value: string) => any }>(() => import('./form/RichTextEditor').then(component => component.RichTextEditor), { ssr: false });
 
 interface EditEventProps {
     event?: HistoricalEvent | null;
@@ -171,14 +174,7 @@ export const EditEvent: React.FC<EditEventProps> = ({ event, handleClose }) => {
                                 />
                             </Box>
 
-                            <InputField
-                                label="Description"
-                                name="description"
-                                autoComplete="off"
-                                variant="filled"
-                                style={{ height: 128, fontSize: "small" }}
-                                multiline
-                            />
+                            <RichTextEditor text={values.description} setValue={(value) => {setFieldValue("description", value)}} />
 
                             <Box display="flex">
                                 <InputField

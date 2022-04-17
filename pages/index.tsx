@@ -90,9 +90,8 @@ const Home: NextPage<HomePageProps> = ({ events }) => {
               <Typography
                 component="div"
                 mt={2}
-              >
-                {data[index].description}
-              </Typography>
+                dangerouslySetInnerHTML={{__html: data[index].description || ""}}
+              />
 
             </>}
         </Paper>
